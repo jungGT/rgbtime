@@ -6,10 +6,13 @@
 #include <util/delay.h>
 
 #include "i2c_master.h"
+#include "lm75_temp.h"
 
 #define WSDATA_PIN 0x08
 #define WSDATA_DDR DDRD
 #define WSDATA_PORT PORTD
+
+#define LM75_ADDR 0x90
 
 /* Send a single data byte out to the WS2812 using somewhat correct
  * timing (it isn't as critical as the datasheet makes it seem).
@@ -63,6 +66,9 @@ void updateSingle(uint8_t rgb[])
 int main(void)
 {
 	WSDATA_DDR |= WSDATA_PIN;
+	
+	i2c_init();
+	lm75_init((uint8_t)LM75_ADDR);
 	
 	uint8_t killer[3] = {0,0,0};
 	
