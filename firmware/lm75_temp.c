@@ -26,7 +26,7 @@ int8_t lm75_getTemp(uint8_t i2cAddr)
 	i2c_receive(i2cAddr, data, 2);
 	
 	// discard lower 0.5°C bit
-	temperature = data[0];
+	temperature = (int8_t)data[0];
 	
 	return temperature;
 }	
