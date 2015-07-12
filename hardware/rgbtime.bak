@@ -165,7 +165,6 @@ F 3 "" H 6200 6750 60  0000 C CNN
 	1    5650 5950
 	1    0    0    -1  
 $EndComp
-NoConn ~ 5200 5950
 $Comp
 L LM75 U2
 U 1 1 559EC3A1
@@ -332,8 +331,6 @@ Text Label 8100 5900 0    60   ~ 0
 MISO
 Text Label 8100 6000 0    60   ~ 0
 SCK
-Text Label 8100 6100 0    60   ~ 0
-RST
 $Comp
 L VCC #PWR012
 U 1 1 559F1762
@@ -911,7 +908,6 @@ NoConn ~ 2850 4850
 NoConn ~ 2850 5350
 NoConn ~ 2850 5450
 NoConn ~ 2850 5550
-NoConn ~ 2850 5650
 NoConn ~ 2850 5950
 NoConn ~ 2850 6050
 NoConn ~ 2850 6950
@@ -1899,4 +1895,14 @@ Text Label 6500 6000 0    60   ~ 0
 B_CAP
 Text Label 6100 5850 0    60   ~ 0
 RTC_BACK
+Text Label 8100 6100 0    60   ~ 0
+~RESET
+Wire Wire Line
+	5200 5950 3700 5950
+Wire Wire Line
+	3700 5950 3700 5650
+Wire Wire Line
+	3700 5650 2850 5650
+Text Label 2950 5650 0    60   ~ 0
+RTC_ALM
 $EndSCHEMATC
