@@ -16,7 +16,8 @@ TARGET = main
 # List C source files here. (C dependencies are automatically generated.)
 SRC = $(TARGET).c \
 	i2c_master.c \
-	lm75_temp.c
+	lm75_temp.c \
+	rtc.c
 
 # List Assembler source files here.
 # Make them always end in a capital .S.  Files ending in a lowercase .s
