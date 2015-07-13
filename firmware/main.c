@@ -80,12 +80,23 @@ void updateSingle(uint8_t rgb[])
 
 int main(void)
 {
+	uint8_t killer[3] = {0,0,0};
+	struct rtc_time rtcTime;
+	struct lm75 tempSensor;
+	tempSensor.i2cAddr = 0x90;
+
+	rtcTime.second = 0;
+	rtcTime.minute = 0;
+	rtcTime.hour = 0;
+
+	// initialize peripherals
+	i2c_init();
+	// initialize board
+	rtc_init();
+	lm75_init(&tempSensor);
+	// initialize I/O
 	WSDATA_DDR |= WSDATA_PIN;
 
-	i2c_init();
-	lm75_init((uint8_t)LM75_ADDR);
-
-	uint8_t killer[3] = {0,0,0};
 
 	updateSingle(killer);
 

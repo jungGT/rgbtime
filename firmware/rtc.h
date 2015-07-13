@@ -11,9 +11,13 @@ struct rtc_time {
   uint8_t year;
 };
 
+// high level functions for external use
 void rtc_init(void);
 void rtc_setTime(struct rtc_time *t);
 void rtc_getTime(struct rtc_time *t);
+// low level functions for internal use
+void rtc_startOsc(void);
+void rtc_stopOsc(void);
 uint8_t rtc_randRead(uint8_t addr);
 void rtc_seqRead(uint8_t addr, uint8_t *buf, uint8_t length);
 void rtc_randWrite(uint8_t addr, uint8_t data);
