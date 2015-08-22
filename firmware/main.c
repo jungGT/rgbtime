@@ -11,27 +11,19 @@
 #include "rtc.h"
 #include "ws2812.h"
 #include "rgb_lookup.h"
+#include "pixgraph.h"
 
-#define BMAX 25
-#define DELAY 50
-
-const uint8_t digitLookup[10][5] =
-{
-	{0x1F,0x13,0x15,0x19,0x1F},
-	{0x00,0x00,0x1F,0x00,0x00},
-	{0x1D,0x15,0x15,0x15,0x17},
-	{0x15,0x15,0x15,0x15,0x1F},
-	{0x07,0x04,0x04,0x04,0x1F},
-	{0x17,0x15,0x15,0x15,0x17},
-	{0x1F,0x15,0x15,0x15,0x1D},
-	{0x01,0x10,0x01,0x10,0x1F},
-	{0x1F,0x15,0x15,0x15,0x1F},
-	{0x17,0x15,0x15,0x15,0x1F}
+uint8_t img[5][5][3] = {
+	{{25,0,0},{0,0,0},{0,0,0},{0,0,0},{25,0,0}},
+	{{25,0,0},{0,0,0},{25,0,0},{0,0,0},{25,0,0}},
+	{{25,0,0},{0,0,0},{25,0,0},{0,0,0},{25,0,0}},
+	{{25,0,0},{0,0,0},{25,0,0},{0,0,0},{25,0,0}},
+	{{25,0,0},{25,0,0},{25,0,0},{25,0,0},{25,0,0}}
 };
 
 int main(void)
 {
-	uint8_t killer[3] = {0,0,0};
+	uint8_t killer[3] = {25,25,25};
 
 	uint8_t d[25][3] = {{0}};
 	struct rtc_time rtcTime;
@@ -50,10 +42,17 @@ int main(void)
 
 	ws_init();
 
-	ws_updatePix(d,25);
 
 	while(1)
 	{
+		for(uint8_t i = 0; i < 10; i++)
+		{
+			pg_drawBitmap(i,img,killer);
+			pg_canvas2hw(img,d);
+			ws_updatePix(d,25);
+			_delay_ms(1000);
+		}
+		/*
 		for (uint16_t i = 0; i < 360; i++)
 		{
 			killer[0] = pgm_read_byte(&(rgb_lookup[i][0]));
@@ -68,7 +67,7 @@ int main(void)
 			}
 			ws_updatePix(d,25);
 			_delay_ms(25);
-		}
+		}*/
 	}
 	return 0;
 }

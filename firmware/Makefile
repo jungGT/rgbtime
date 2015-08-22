@@ -18,7 +18,8 @@ SRC = $(TARGET).c \
 	i2c_master.c \
 	lm75_temp.c \
 	rtc.c \
-	ws2812.c
+	ws2812.c \
+	pixgraph.c
 
 # List Assembler source files here.
 # Make them always end in a capital .S.  Files ending in a lowercase .s
