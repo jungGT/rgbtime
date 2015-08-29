@@ -23,16 +23,18 @@ uint8_t img[5][5][3] = {
 
 int main(void)
 {
-	uint8_t killer[3] = {25,25,25};
-
+	uint8_t color[3] = {0,0,0};
 	uint8_t d[25][3] = {{0}};
-	struct rtc_time rtcTime;
+
 	struct lm75 tempSensor;
 	tempSensor.i2cAddr = 0x90;
 
+	struct rtc_time rtcTime;
 	rtcTime.second = 0;
 	rtcTime.minute = 0;
 	rtcTime.hour = 0;
+
+	uint16_t colorIndex = 0;
 
 	// initialize peripherals
 	i2c_init();
@@ -42,32 +44,21 @@ int main(void)
 
 	ws_init();
 
-
 	while(1)
 	{
-		for(uint8_t i = 0; i < 10; i++)
-		{
-			pg_drawBitmap(i,img,killer);
+			rtc_getTime(&rtcTime);
+			//lm75_getTemp(&tempSensor);
+			colorIndex = (uint16_t)(rtcTime.hour*60 + rtcTime.minute)>>2;
+			color[0] = pgm_read_byte(&(rgb_lookup[colorIndex][0]));
+			color[1] = pgm_read_byte(&(rgb_lookup[colorIndex][1]));
+			color[2] = pgm_read_byte(&(rgb_lookup[colorIndex][2]));
+			pg_drawDigit((rtcTime.second%10),img,color);
 			pg_canvas2hw(img,d);
 			ws_updatePix(d,25);
-			_delay_ms(1000);
-		}
-		/*
-		for (uint16_t i = 0; i < 360; i++)
-		{
-			killer[0] = pgm_read_byte(&(rgb_lookup[i][0]));
-			killer[1] = pgm_read_byte(&(rgb_lookup[i][1]));
-			killer[2] = pgm_read_byte(&(rgb_lookup[i][2]));
 
-			for (uint8_t n = 0; n < 25; n++)
-			{
-				d[n][0] = killer[0];
-				d[n][1] = killer[1];
-				d[n][2] = killer[2];
-			}
-			ws_updatePix(d,25);
-			_delay_ms(25);
-		}*/
+			_delay_ms(500);
+
+
 	}
 	return 0;
 }

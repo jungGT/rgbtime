@@ -2,7 +2,7 @@
 #include "pixgraph.h"
 
 // draws a bitmap monochrome (color[3]) image onto a canvas
-void pg_drawBitmap(uint8_t n, uint8_t cdata[5][5][3], uint8_t color[3])
+void pg_drawBitmap(uint8_t bitmap[5], uint8_t cdata[5][5][3], uint8_t color[3])
 {
   uint8_t zeros[3] = {0,0,0};
 
@@ -10,7 +10,7 @@ void pg_drawBitmap(uint8_t n, uint8_t cdata[5][5][3], uint8_t color[3])
   {
     for(uint8_t col = 0; col < 5; col++)
     {
-      if ( ((pg_digLUT[n][line]<<col) & 0x10) == 0x10)
+      if ( ((bitmap[line]<<col) & 0x10) == 0x10)
       {
         pg_cpRGB(color,cdata[col][line]);
       } else {
@@ -18,6 +18,12 @@ void pg_drawBitmap(uint8_t n, uint8_t cdata[5][5][3], uint8_t color[3])
       }
     }
   }
+}
+
+
+void pg_drawDigit(uint8_t n, uint8_t cdata[5][5][3], uint8_t color[3])
+{
+  pg_drawBitmap(pg_digLUT[n], cdata, color);
 }
 
 // maps the 5x5 images (0,0 at top left corner) on canvas
@@ -73,7 +79,7 @@ const uint8_t pg_digLUT[10][5] = {
   {0x11,0x11,0x1F,0x01,0x01},
   {0x1F,0x10,0x1F,0x01,0x1F},
   {0x1F,0x10,0x1F,0x11,0x1F},
-  {0x1F,0x01,0x01,0x01,0x01},
+  {0x1F,0x01,0x02,0x04,0x08},
   {0x1F,0x11,0x1F,0x11,0x1F},
   {0x1F,0x11,0x1F,0x01,0x1F}
 };
