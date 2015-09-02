@@ -12,7 +12,7 @@ struct rtc_time {
 };
 
 // high level functions for external use
-void rtc_init(void);
+void rtc_init(struct rtc_time *t);
 void rtc_setTime(struct rtc_time *t);
 void rtc_getTime(struct rtc_time *t);
 // low level functions for internal use

@@ -21,6 +21,14 @@ uint8_t img[5][5][3] = {
 	{{25,0,0},{25,0,0},{25,0,0},{25,0,0},{25,0,0}}
 };
 
+uint8_t blank[5][5][3] = {
+	{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
+	{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
+	{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
+	{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
+	{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}}
+};
+
 int main(void)
 {
 	uint8_t color[3] = {0,0,0};
@@ -32,14 +40,14 @@ int main(void)
 	struct rtc_time rtcTime;
 	rtcTime.second = 0;
 	rtcTime.minute = 0;
-	rtcTime.hour = 0;
+	rtcTime.hour = 16;
 
 	uint16_t colorIndex = 0;
 
 	// initialize peripherals
 	i2c_init();
 	// initialize board
-	rtc_init();
+	rtc_init(&rtcTime);
 	lm75_init(&tempSensor);
 
 	ws_init();
@@ -52,11 +60,31 @@ int main(void)
 			color[0] = pgm_read_byte(&(rgb_lookup[colorIndex][0]));
 			color[1] = pgm_read_byte(&(rgb_lookup[colorIndex][1]));
 			color[2] = pgm_read_byte(&(rgb_lookup[colorIndex][2]));
-			pg_drawDigit((rtcTime.second%10),img,color);
+
+
+			pg_drawDigit((rtcTime.hour/10),img,color);
 			pg_canvas2hw(img,d);
 			ws_updatePix(d,25);
+			_delay_ms(1000);
 
-			_delay_ms(500);
+			pg_drawDigit((rtcTime.hour%10),img,color);
+			pg_canvas2hw(img,d);
+			ws_updatePix(d,25);
+			_delay_ms(1000);
+
+			pg_drawDigit((rtcTime.minute/10),img,color);
+			pg_canvas2hw(img,d);
+			ws_updatePix(d,25);
+			_delay_ms(1000);
+
+			pg_drawDigit((rtcTime.minute%10),img,color);
+			pg_canvas2hw(img,d);
+			ws_updatePix(d,25);
+			_delay_ms(1000);
+
+			pg_canvas2hw(blank,d);
+			ws_updatePix(d,25);
+			_delay_ms(5000);
 
 
 	}

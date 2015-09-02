@@ -2,7 +2,7 @@
 #include "rtc.h"
 #include "i2c_master.h"
 
-void rtc_init(void)
+void rtc_init(struct rtc_time *t)
 {
   uint8_t temp[4];
   rtc_stopOsc();
@@ -14,6 +14,7 @@ void rtc_init(void)
     temp[2] &= ~0x40;   // 24 hour format
     temp[3] |= 0x08;    // enable battery backup
     rtc_seqWrite((uint8_t)RTCSEC,temp,4);
+    rtc_setTime(t);
   } else {
     temp[3] |= 0x08;
     rtc_randWrite((uint8_t)RTCWKDAY,temp[3]);
