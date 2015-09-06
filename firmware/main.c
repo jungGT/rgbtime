@@ -40,7 +40,7 @@ int main(void)
 	struct rtc_time rtcTime;
 	rtcTime.second = 0;
 	rtcTime.minute = 0;
-	rtcTime.hour = 16;
+	rtcTime.hour = 20;
 
 	uint16_t colorIndex = 0;
 
